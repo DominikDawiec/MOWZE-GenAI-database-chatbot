@@ -1,4 +1,7 @@
 streamlit
 st_pages
-openai
 sqlalchemy
+pandas
+json
+streamlit.components.v1
+openai
