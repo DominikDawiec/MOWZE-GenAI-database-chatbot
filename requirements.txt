@@ -3,3 +3,5 @@ st_pages
 sqlalchemy
 pandas
 openai
+pymysql
+psycopg2-binary
