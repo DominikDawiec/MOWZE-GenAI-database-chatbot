@@ -2,6 +2,4 @@ streamlit
 st_pages
 sqlalchemy
 pandas
-json
-streamlit.components.v1
 openai
