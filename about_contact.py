@@ -1,6 +1,9 @@
 import streamlit as st
 from st_pages import Page, show_pages
 
+# Add a robot emoji icon and set the tab name
+st.set_page_config(page_title="MOWZE", page_icon="🤖")
+
 with st.sidebar:
     show_pages([
         Page("main.py", "Chatbot"),
