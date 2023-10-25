@@ -23,6 +23,9 @@ db_type = st.session_state.get("db_type", "Not Set")
 
 openai.api_key = key
 
+# Add a robot emoji icon and set the tab name
+st.set_page_config(page_title="MOWZE", page_icon="🤖")
+
 st.subheader("MOWZE - AI-Powered Database Chatbot")
 
 with st.sidebar:
