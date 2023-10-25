@@ -1,7 +1,10 @@
 # Probelm do zaafresowania #1 - czy wartość maksymalna w max tokens nie powinna być dostarczona do modelu?
 
 import streamlit as st
-    
+
+# Add a robot emoji icon and set the tab name
+st.set_page_config(page_title="MOWZE", page_icon="🤖")
+
 # Model names
 models_openai = [
     'gpt-3.5-turbo-16k-0613',
