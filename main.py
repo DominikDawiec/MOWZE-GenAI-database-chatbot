@@ -152,7 +152,7 @@ def generate_response(prompt_input):
             return answer
 
     except ProgrammingError as e:
-        error_message = "There was an issue executing the query. Please check your request and try again."
+        error_message = "There was an issue executing the query. Please check your question and try again."
         #st.write(f"Error: {error_message}")
         return error_message
 
