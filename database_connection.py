@@ -5,6 +5,9 @@ from sqlalchemy import inspect
 import pandas as pd
 import json
 
+# Add a robot emoji icon and set the tab name
+st.set_page_config(page_title="MOWZE", page_icon="🤖")
+
 with st.sidebar:
     show_pages([
         Page("main.py", "Chatbot"),
