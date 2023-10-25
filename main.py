@@ -5,6 +5,7 @@ import json
 import openai
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
+from sqlalchemy.exc import ProgrammingError
 import pandas as pd
 
 db_name = st.session_state.get("db_name", "Not Set")
@@ -95,59 +96,65 @@ with st.expander("How to Use the Chatbot Assistant", expanded=False):
     
 # Function for generating LLM response
 def generate_response(prompt_input):
-    # If configurations are not set, provide appropriate feedback
-    if connection_str == "Not Set" and selected_model == "Not Set":
-        return "Please set up your database connection and select a model before proceeding."
-    elif connection_str == "Not Set":
-        return "Please set up your database connection before proceeding."
-    elif selected_model == "Not Set":
-        return "Please select a model before proceeding."
-    else:
-        if not generate_response:
-            return 'Error:', 'Please enter a request'
-
-        if db_type == 'Sample DatabaseOnly':
-            db_dialect = 'Postgres'
+    try:
+        # If configurations are not set, provide appropriate feedback
+        if connection_str == "Not Set" and selected_model == "Not Set":
+            return "Please set up your database connection and select a model before proceeding."
+        elif connection_str == "Not Set":
+            return "Please set up your database connection before proceeding."
+        elif selected_model == "Not Set":
+            return "Please select a model before proceeding."
         else:
-            db_dialect = db_type
+            if not generate_response:
+                return 'Error:', 'Please enter a request'
 
-        prompt = "You are an SQL assistant."
-        prompt += f"\n\n Based on the provided database schema, recent user interactions and the current request, construct SQL query that extracts the information."
-        prompt += f"\n\n User request is: {prompt_input}."
-        prompt += "\n\nOnly craft the SQL code without any comments or explanations."
-        prompt += "ALWAYS reference columns using their respective table names to avoid ambiguity."
-        prompt += f"\n\nAdhere to the SQL dialect: {db_type}"
-        prompt += f"\n\nOnly utilize columns and tables from the provided schema below: {schema_details_json}"
+            if db_type == 'Sample DatabaseOnly':
+                db_dialect = 'Postgres'
+            else:
+                db_dialect = db_type
 
-        response = openai.ChatCompletion.create(model=selected_model,
-                                               temperature=temperature,
-                                                messages=[{"role": "user", "content": prompt}])
+            prompt = "You are an SQL assistant."
+            prompt += f"\n\n Based on the provided database schema, recent user interactions and the current request, construct SQL query that extracts the information."
+            prompt += f"\n\n User request is: {prompt_input}."
+            prompt += "\n\nOnly craft the SQL code without any comments or explanations."
+            prompt += "ALWAYS reference columns using their respective table names to avoid ambiguity."
+            prompt += f"\n\nAdhere to the SQL dialect: {db_type}"
+            prompt += f"\n\nOnly utilize columns and tables from the provided schema below: {schema_details_json}"
 
-        code = response.choices[0].message.content
+            response = openai.ChatCompletion.create(model=selected_model,
+                                                   temperature=temperature,
+                                                   messages=[{"role": "user", "content": prompt}])
 
-        with st.sidebar:
-            st.markdown('**Generated SQL Query**')
-            st.code(code, language='sql')
+            code = response.choices[0].message.content
 
-        engine = create_engine(connection_str)
-        with engine.connect() as conn, conn.begin():
-            result = conn.execute(text(code))
-            data = pd.DataFrame(result.fetchall(), columns=result.keys())
-            st.write(data)
+            with st.sidebar:
+                st.markdown('**Generated SQL Query**')
+                st.code(code, language='sql')
 
-        second_prompt = "You are an SQL assistant."
-        second_prompt += f"\n\n User question was {prompt_input}."
-        second_prompt += f"\n\n You have executed this code {code}."
-        second_prompt += f"\n\n It has returned that dataframe output: {data.to_string()}."
-        second_prompt += f"Please anwser the User question based on the output data."
+            engine = create_engine(connection_str)
+            with engine.connect() as conn, conn.begin():
+                result = conn.execute(text(code))
+                data = pd.DataFrame(result.fetchall(), columns=result.keys())
+                st.write(data)
 
-        response = openai.ChatCompletion.create(model=selected_model,
-                                                temperature=temperature,
-                                                messages=[{"role": "user", "content": second_prompt}])
+            second_prompt = "You are an SQL assistant."
+            second_prompt += f"\n\n User question was {prompt_input}."
+            second_prompt += f"\n\n You have executed this code {code}."
+            second_prompt += f"\n\n It has returned that dataframe output: {data.to_string()}."
+            second_prompt += f"Please answer the User question based on the output data."
 
-        answer = response.choices[0].message.content
+            response = openai.ChatCompletion.create(model=selected_model,
+                                                    temperature=temperature,
+                                                    messages=[{"role": "user", "content": second_prompt}])
 
-        return answer
+            answer = response.choices[0].message.content
+
+            return answer
+
+    except ProgrammingError as e:
+        error_message = "There was an issue executing the query. Please check your request and try again."
+        #st.write(f"Error: {error_message}")
+        return error_message
 
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
