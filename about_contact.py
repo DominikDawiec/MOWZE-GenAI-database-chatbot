@@ -29,7 +29,7 @@ st.subheader("Contact")
 st.link_button("LinkedIn", "https://www.linkedin.com/in/dominikdawiec/", use_container_width = True)
 
 st.subheader("See my other projects")
-st.link_button("GitHub", "https://github.com/DominikDawiec")
+st.link_button("GitHub", "https://github.com/DominikDawiec", use_container_width = True)
 
 st.subheader("Proposed Changes for Future Versions")
 st.write("""
