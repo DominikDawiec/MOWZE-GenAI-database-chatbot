@@ -26,7 +26,7 @@ Hi there! I'm Dominik Dawiec, Junior Data Scientist at PwC with a strong financi
     """)
 
 st.subheader("Contact")
-st.link_button("LinkedIn", "https://www.linkedin.com/in/dominikdawiec/")
+st.link_button("LinkedIn", "https://www.linkedin.com/in/dominikdawiec/", use_container_width = True)
 
 st.subheader("See my other projects")
 st.link_button("GitHub", "https://github.com/DominikDawiec")
