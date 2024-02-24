@@ -2,6 +2,6 @@ streamlit
 st_pages
 sqlalchemy
 pandas
-openai=0.28
+openai==0.28
 pymysql
 psycopg2-binary
