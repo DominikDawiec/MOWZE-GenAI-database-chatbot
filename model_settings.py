@@ -1,5 +1,3 @@
-# Probelm do zaafresowania #1 - czy wartość maksymalna w max tokens nie powinna być dostarczona do modelu?
-
 import streamlit as st
 
 # Add a robot emoji icon and set the tab name
