@@ -27,7 +27,7 @@ model_provider = st.selectbox("Choose a model provider:", ["Sample Model (Recomm
 if model_provider == "Sample Model (Recommended)":
     st.subheader('Sample Model (Recommended)')
     selected_model = 'gpt-3.5-turbo-16k-0613'
-    key = ' ' 
+    key = st.secrets["default"]["api_key"]
     
     with st.expander('Model Parameters'):
         temperature = 0.2
