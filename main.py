@@ -22,7 +22,6 @@ schema_details_json = st.session_state.get("schema_details_json", "Not Set")
 connection_str = st.session_state.get("connection_str", "Not Set")
 db_type = st.session_state.get("db_type", "Not Set")
 
-st.text(key)
 openai.api_key = key
 
 # Add a robot emoji icon and set the tab name
