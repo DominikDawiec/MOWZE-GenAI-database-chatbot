@@ -50,7 +50,7 @@ def get_schema_details(connection_str):
 
 st.title("Database Configuration")
 st.markdown("### Configure your Database connection")
-db_type = st.selectbox('Choose a Database connection', list(db_products_dict.keys()) + ['Upload SQL File'])
+db_type = st.selectbox('Choose a Database connection', list(db_products_dict.keys()))
 
 if db_type == 'Sample Database':
     db_host = st.text_input('host', 'psql-mock-database-cloud.postgres.database.azure.com')
@@ -86,51 +86,37 @@ elif db_type == 'Oracle Database':
     db_user = st.text_input('user', 'your-oracle-user')
     db_password = st.text_input('password', '', type='password')
     db_name = st.text_input('database', 'your-database-name')
-
-elif db_type == 'Upload SQL File':
-    uploaded_file = st.file_uploader("Choose a SQL file", type=["sql"])
     
-    if uploaded_file is not None:
-        file_content = uploaded_file.read().decode('utf-8')
-        # Process the SQL file content here if needed
-        st.write("SQL File Uploaded Successfully")
-
 if st.button('Connect', use_container_width=True):
     with st.spinner('Connecting to the database...'):
-        if db_type == 'Upload SQL File':
-            if uploaded_file is not None:
-                st.session_state['file_content'] = file_content
-                st.success('SQL file uploaded and processed successfully!')
-            else:
-                st.error('Please upload a SQL file.')
-        else:
-            # Construct connection string based on database type
-            connector = db_products_dict[db_type][1]
-            connection_str = f"{connector}://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-            
-            # Try connecting
-            if try_connecting(connection_str):
-                # Save the database variables into the session state
-                st.session_state['db_host'] = db_host
-                st.session_state['db_port'] = db_port
-                st.session_state['db_user'] = db_user
-                st.session_state['db_password'] = db_password
-                st.session_state['db_name'] = db_name
-                st.session_state['db_type'] = db_type
-                        
-                # Display schema details in an expander           
-                with st.expander("Database Schema"):
-                    schema_details = get_schema_details(connection_str)
-                    schema_details_json = json.dumps(schema_details, indent=4)
-                                    
-                    st.session_state['schema_details_json'] = schema_details_json
-                    st.session_state['connection_str'] = connection_str
-                    
-                    for table, columns in schema_details.items():
-                        st.write(f"Table: {table}")
-                        df = pd.DataFrame(columns, columns=['Column Name', 'Data Type'])
-                        st.dataframe(df, use_container_width=True)
+        # Construct connection string based on database type
+        connector = db_products_dict[db_type][1]
+        connection_str = f"{connector}://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+        
+        # Try connecting
+        if try_connecting(connection_str):
 
-                st.success('Connected successfully!')
-            else:
-                st.error('Failed to connect. Please check your credentials.')
+            # Save the database variables into the session state
+            st.session_state['db_host'] = db_host
+            st.session_state['db_port'] = db_port
+            st.session_state['db_user'] = db_user
+            st.session_state['db_password'] = db_password
+            st.session_state['db_name'] = db_name
+            st.session_state['db_type'] = db_type
+                    
+            # Display schema details in an expander           
+            with st.expander("Database Schema"):
+                schema_details = get_schema_details(connection_str)
+                schema_details_json = json.dumps(schema_details, indent=4)
+                                
+                st.session_state['schema_details_json'] = schema_details_json
+                st.session_state['connection_str'] = connection_str
+                
+                for table, columns in schema_details.items():
+                    st.write(f"Table: {table}")
+                    df = pd.DataFrame(columns, columns=['Column Name', 'Data Type'])
+                    st.dataframe(df, use_container_width=True)
+
+            st.success('Connected successfully!')
+        else:
+            st.error('Failed to connect. Please check your credentials.')
