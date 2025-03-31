@@ -1,5 +1,5 @@
 import streamlit as st
-from st_pages import Page, show_pages
+# from st_pages import Page, show_pages
 import sqlalchemy as sa
 from sqlalchemy import inspect
 import pandas as pd
@@ -8,13 +8,13 @@ import json
 # Add a robot emoji icon and set the tab name
 st.set_page_config(page_title="MOWZE", page_icon="🤖")
 
-with st.sidebar:
-    show_pages([
-        Page("main.py", "Chatbot"),
-        Page("database_connection.py", "Database Connection"),
-        Page("model_settings.py", "Language Model Settings"),
-        Page("about_contact.py", "About & Contact"),
-    ])
+# with st.sidebar:
+#     show_pages([
+#         Page("main.py", "Chatbot"),
+#         Page("database_connection.py", "Database Connection"),
+#         Page("model_settings.py", "Language Model Settings"),
+#         Page("about_contact.py", "About & Contact"),
+#     ])
 
 db_products_dict = {
     'Sample Database': ['postgres', 'postgresql+psycopg2'],

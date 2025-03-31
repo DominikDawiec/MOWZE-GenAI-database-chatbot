@@ -1,5 +1,5 @@
 import streamlit as st
-from st_pages import Page, show_pages
+# from st_pages import Page, show_pages
 import streamlit.components.v1 as components
 import json
 import openai
@@ -30,12 +30,12 @@ st.set_page_config(page_title="MOWZE", page_icon="🤖")
 st.subheader("MOWZE - AI-Powered Database Chatbot")
 
 with st.sidebar:
-    show_pages([
-        Page("main.py", "Chatbot"),
-        Page("database_connection.py", "Database Connection"),
-        Page("model_settings.py", "Language Model Settings"),
-        Page("about_contact.py", "About & Contact"),
-    ])
+    # show_pages([
+    #     Page("main.py", "Chatbot"),
+    #     Page("database_connection.py", "Database Connection"),
+    #     Page("model_settings.py", "Language Model Settings"),
+    #     Page("about_contact.py", "About & Contact"),
+    # ])
     
     # Displaying the database and model information
     st.markdown("#### **Database Information**")

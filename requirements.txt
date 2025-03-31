@@ -1,7 +1,6 @@
-streamlit
-st_pages
-sqlalchemy
-pandas
+streamlit==1.43.1
+sqlalchemy==2.0.40
+pandas==2.2.2
 openai==0.28
-pymysql
-psycopg2-binary
+pymysql==1.1.1
+psycopg2-binary==2.9.10
