@@ -1,30 +1,39 @@
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mowze-chat.streamlit.app/)
 
-# MOWZE GenAI database chatbot
+# MOWZE GenAI Database Chatbot
 
-MOWZE is an innovative project developed during **HackYeah 2023**, a hackathon event. The core of this project is a chatbot, designed to **revolutionize how users interact with databases**. It allows users to **query a connected database in natural language**, eliminating the need for SQL or similar database languages. This feature significantly **simplifies data interaction** and enhances the intuitive extraction of insights.
+MOWZE is an innovative project created during **HackYeah 2023**. The goal was to build a chatbot that **revolutionizes database interactions**. Instead of writing SQL, users can ask questions in natural language and let the bot generate the necessary SQL queries. This approach **simplifies data exploration** and makes it easier to gather insights from your database.
 
-#### Project Status: [Completed]
+#### Project Status: Completed
 
 ## Application Link
-To access the application, please click on this link: [MOWZE GenAI database chatbot](https://mowze-chat.streamlit.app/)
+You can try the deployed version here: [MOWZE GenAI database chatbot](https://mowze-chat.streamlit.app/)
 
-## Project Objective
+## Features
+- Connect to your own database or the provided sample.
+- Generate SQL queries automatically based on plain language prompts.
+- View executed SQL code for transparency.
+- Adjust model parameters such as temperature and max tokens.
 
-### Methods Used
-* GenAI
-* Prompting
-* Database Connection
-* Database Configuration
-
-### Technologies
-* Python
-* OpenAI
-* SQLAlchemy 
+## Technologies
+- Python & Streamlit
+- OpenAI API
+- SQLAlchemy for database connections
 
 ## Getting Started
-1. You may see the result through this [link](https://mowze-chat.streamlit.app/). 
-2. You may view the code in main.py
+1. Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the Streamlit application:
+
+```bash
+streamlit run main.py
+```
+
+3. Configure your database and model in the sidebar, then start chatting!
 
 ## Contact
-* Please feel free to reach me through my [LinkedIn](http://linkedin.com/in/dominikdawiec/). 
+Feel free to reach out via [LinkedIn](http://linkedin.com/in/dominikdawiec/).
